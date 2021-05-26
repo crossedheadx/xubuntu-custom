@@ -45,8 +45,8 @@ sudo apt install -y timeshift
 notify-send 'scarico ed installo software di controllo remoto'
 wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb 
 wget https://download.anydesk.com/linux/anydesk_6.1.1-1_amd64.deb
-sudo apt install -y "$HOME/*.deb"
-rm -rf "$HOME/*.deb"
+sudo apt install -y ./*.deb
+rm -rf ./*.deb
 
 notify-send 'faccio pulizia'
 sudo apt autoremove -y
