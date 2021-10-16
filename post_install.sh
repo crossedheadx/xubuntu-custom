@@ -1,6 +1,12 @@
 #!/bin/bash
 # shell post install script - executed after installation
 
+## constant variables declaration - dichiarazione costanti
+
+SNAP = (["skype"] = "skype --classic", ["telegram"] = "telegram-desktop", ["zoom"] = "zoom-client", ["joplin"] = "joplin-desktop", ["spotify"] = "spotify", ["chromium"] = "chromium")
+
+## end of constant variables declaration - fine dichiarazione costanti
+
 ## functions part - parte funzioni
 ## print short description for user - stampa una breve descrizione per l'utente
 print_infos(){
@@ -74,9 +80,15 @@ install_dvd(){
     sudo apt install -y libdvd-pkg && sudo dpkg-reconfigure libdvd-pkg
 }
 
+install_custom_shell_commands(){
+    # implements easy-to-use commands to simply mantain the system
+    # eg = alias 'cinst'='sudo apt install'...
+    # TODO: download implementation of the alias
+}
 
 snap_install(){
-
+# TODO: implement for loop from choices passed from arguments
+    sudo snap install # TODO: implement snap install
 }
 
 # kernel liquorix install - installazione del kernel liquorix
@@ -101,6 +113,7 @@ rdp_install(){
     rm -rf ./*.deb
 }
 
+# START THE MAIN INSTALLATION PROCESS - INIZIO DEL PROCESSO DI INSTALLAZIONE
 start_post_install(){
     notify-send 'ATTENZIONE: potrebbe essere richiesta qualche azione da parte utente'
     notify-send 'accettare tutto'
@@ -113,7 +126,7 @@ start_post_install(){
     clear
     kernel_liquorix
     clear
-    rdp_install
+    install_backup_tool
     clear
     final_operations
 }
@@ -124,7 +137,7 @@ final_operations() {
     sudo apt autoremove -y
 
     notify-send 'finito!'
-    reboot # apply all mods
+    reboot # apply all mods - 
 }
 
 choice_actions(){
@@ -159,14 +172,3 @@ until [[$USCITA = true]]; do
 done
 
 exit 0 ## fine script
-
-    
-
-# snap part
-sudo snap install skype --classic
-sudo snap install zoom-client
-sudo snap install telegram-desktop
-sudo snap install joplin-desktop
-sudo snap install spotify
-sudo snap install chromium
-# end snap part
