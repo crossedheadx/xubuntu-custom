@@ -16,6 +16,10 @@ print_infos(){
      echo -ne "Attenzione: la modalità automatica desumerà che questo pc abbia anche un lettore ottico ed installerà tutti i software"
      echo -ne "extra quali: skype, zoom, telegram, spotify, joplin, ecc."
      sleep 15
+     echo -ne "Premere INVIO o ENTER per tornare indietro..."
+     read INPUT ## return back - ritorna indietro
+     clear
+     return
 }
 
 ## this will avoid future false-positive internal errors - questo eviterà futuri errori interni falsi positivi 
@@ -111,6 +115,17 @@ rdp_install(){
     wget https://download.anydesk.com/linux/anydesk_6.1.1-1_amd64.deb
     sudo apt install -y ./*.deb
     rm -rf ./*.deb
+}
+
+implement_zram_optimization(){
+    #TODO set minimal configuration to apply a correct implementation for zram and sys stabilty
+    # shall impose small memory blocks
+    # and shall impose zstd compession which is the best, for now 
+    # and the zswap, but with a small check on performance in order to not hang up system
+}
+
+implement_no_hangup_oom(){
+    # TODO implement a oom sys between the garuda and earlyoom file and set a fine tuning system
 }
 
 # START THE MAIN INSTALLATION PROCESS - INIZIO DEL PROCESSO DI INSTALLAZIONE
