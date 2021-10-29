@@ -13,7 +13,8 @@ print_infos(){
      echo -ne "Con la modalità automatica lasci che questo script si occupi interamente del post installazione"
      echo -ne "l'unica interazione che ti verrà richiesta, sarà l'accettazione dei termini e condizioni di alcuni software"
      echo -ne "e l'inserimento della password utente"
-     echo -ne "Attenzione: la modalità automatica desumerà che questo pc abbia anche un lettore ottico ed installerà tutti i software"
+     echo -ne "Attenzione: la modalità automatica desumerà che questo pc abbia anche un lettore ottico DVD ed installerà tutti i software"
+     echo -ne "necessari al suo funzionamento come lettore video, poi ed altri"
      echo -ne "extra quali: skype, zoom, telegram, spotify, joplin, ecc."
      sleep 15
      echo -ne "Premere INVIO o ENTER per tornare indietro..."
@@ -49,7 +50,7 @@ enable_canonical_partners(){
 
 do_updates(){
     notify-send 'Controllo aggiornamenti e metto software utile'
-    sudo apt update && sudo apt -y dist-upgrade && sudo snap refresh
+    sudo apt update && sudo apt -y full-upgrade && sudo snap refresh
 }
 
 include_zips(){
@@ -58,6 +59,10 @@ include_zips(){
 
 include_extra_fonts(){
     return "fonts-crosextra-caladea fonts-crosextra-carlito"
+}
+
+include_audio(){
+    return "audacity"
 }
 
 include_videos(){
@@ -77,7 +82,7 @@ include_shell(){
 }
 
 include_shell_extra(){
-    return "mc vim"
+    return "mc vim ranger"
 }
 
 install_dvd(){
