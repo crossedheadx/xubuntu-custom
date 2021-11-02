@@ -1,26 +1,20 @@
 #!/bin/bash
 # shell post install script - executed after installation
 
-## constant variables declaration - dichiarazione costanti
-
-SNAP = (["skype"] = "skype --classic", ["telegram"] = "telegram-desktop", ["zoom"] = "zoom-client", ["joplin"] = "joplin-desktop", ["spotify"] = "spotify", ["chromium"] = "chromium")
-
-## end of constant variables declaration - fine dichiarazione costanti
-
 ## functions part - parte funzioni
 ## print short description for user - stampa una breve descrizione per l'utente
 print_infos(){
-     echo -ne "Con la modalità automatica lasci che questo script si occupi interamente del post installazione"
-     echo -ne "l'unica interazione che ti verrà richiesta, sarà l'accettazione dei termini e condizioni di alcuni software"
-     echo -ne "e l'inserimento della password utente"
-     echo -ne "Attenzione: la modalità automatica desumerà che questo pc abbia anche un lettore ottico DVD ed installerà tutti i software"
-     echo -ne "necessari al suo funzionamento come lettore video, poi ed altri"
-     echo -ne "extra quali: skype, zoom, telegram, spotify, joplin, ecc."
-     sleep 15
+     echo -ne "Con la modalità automatica lasci che questo script si occupi interamente del post installazione \n"
+     echo -ne "l'unica interazione che ti verrà richiesta, sarà l'accettazione dei termini e condizioni di alcuni software \n"
+     echo -ne "e l'inserimento della password utente \n"
+     echo -ne "Attenzione: la modalità automatica desumerà che questo pc abbia anche un lettore ottico DVD ed installerà tutti i software \n"
+     echo -ne "necessari al suo funzionamento come lettore video, poi ed altri \n"
+     echo -ne "extra quali: skype, zoom, telegram, spotify, joplin, ecc. \n"
+     sleep 5
      echo -ne "Premere INVIO o ENTER per tornare indietro..."
      read INPUT ## return back - ritorna indietro
      clear
-     return
+     begin
 }
 
 ## this will avoid future false-positive internal errors - questo eviterà futuri errori interni falsi positivi 
@@ -31,7 +25,18 @@ remove_false_positive(){
 
 start_message() {
     echo "Avvio post installazione"
+    clear
+    loading
     notify-send 'Avvio post installazione'
+}
+
+loading(){
+    echo -ne "Caricamento "
+    for i in {1..100}; do
+        echo -ne "\b\r"
+        echo -ne "\t\t $i%"
+        sleep 0.0225
+    done
 }
 
 # enable multiverse and other useful repos - abilita i repo multiversi e altri utili
@@ -54,50 +59,54 @@ do_updates(){
 }
 
 include_zips(){
-    return "rar unrar p7zip-full p7zip-rar"
+    echo "rar unrar p7zip-full p7zip-rar"
 }
 
 include_extra_fonts(){
-    return "fonts-crosextra-caladea fonts-crosextra-carlito"
+    echo "fonts-crosextra-caladea fonts-crosextra-carlito"
 }
 
 include_audio(){
-    return "audacity"
+    echo "audacity"
 }
 
 include_videos(){
-    return "vlc mpv"
+    echo "vlc mpv"
 }
 
 include_cli_downloader(){
-    return "wget curl"
+    echo "wget curl"
 }
 
 include_git(){
-    return "git"
+    echo "git"
 }
 
 include_shell(){ 
-    return "zsh" 
+    echo "zsh" 
 }
 
 include_shell_extra(){
-    return "mc vim ranger"
+    echo "mc vim ranger"
 }
 
 install_dvd(){
     sudo apt install -y libdvd-pkg && sudo dpkg-reconfigure libdvd-pkg
 }
 
-install_custom_shell_commands(){
-    # implements easy-to-use commands to simply mantain the system
-    # eg = alias 'cinst'='sudo apt install'...
-    # TODO: download implementation of the alias
-}
+#install_custom_shell_commands(){
+#    # implements easy-to-use commands to simply mantain the system
+#    # eg = alias 'cinst'='sudo apt install'...
+#    # TODO: download implementation of the alias
+#}
 
 snap_install(){
 # TODO: implement for loop from choices passed from arguments
-    sudo snap install # TODO: implement snap install
+## constant variables declaration - dichiarazione costanti
+declare -A SNAP=(["skype"]="skype --classic" ["telegram"]="telegram-desktop" ["zoom"]="zoom-client" ["joplin"]="joplin-desktop" ["spotify"]="spotify" ["chromium"]="chromium")
+## end of constant variables declaration - fine dichiarazione costanti
+
+#sudo snap install # TODO: implement snap install
 }
 
 # kernel liquorix install - installazione del kernel liquorix
@@ -127,17 +136,19 @@ implement_zram_optimization(){
     # shall impose small memory blocks
     # and shall impose zstd compession which is the best, for now 
     # and the zswap, but with a small check on performance in order to not hang up system
+    source $(pwd)/zram.sh
 }
 
-implement_no_hangup_oom(){
-    # TODO implement a oom sys between the garuda and earlyoom file and set a fine tuning system
-}
+#implement_no_hangup_oom(){
+#    # TODO implement a oom sys between the garuda and earlyoom file and set a fine tuning system
+#}
 
 # START THE MAIN INSTALLATION PROCESS - INIZIO DEL PROCESSO DI INSTALLAZIONE
 start_post_install(){
-    notify-send 'ATTENZIONE: potrebbe essere richiesta qualche azione da parte utente'
-    notify-send 'accettare tutto'
+    echo 'ATTENZIONE: potrebbe essere richiesta qualche azione da parte utente'
+    echo 'accettare tutto'
     clear 
+    do_updates
     sudo apt install -y ubuntu-restricted-extras ubuntu-restricted-addons
     clear
     snap_install
@@ -147,6 +158,8 @@ start_post_install(){
     kernel_liquorix
     clear
     install_backup_tool
+    clear
+    implement_zram_optimization
     clear
     final_operations
 }
@@ -160,35 +173,43 @@ final_operations() {
     reboot # apply all mods - 
 }
 
-choice_actions(){
+#choice_actions(){
+#}
+
+begin(){
+    loading
+    clear
+    USCITA='false'
+    until [[ "$USCITA" = "true" ]]; do
+    echo "Avvio la modalità automatica? [s]ì [n]o [i]nfo"
+    read -r SCELTA1
+        case "$SCELTA1" in
+            "s")
+                    start_message
+                    start_post_install
+                    exit 1;
+                    remove_false_positive
+                    ;;
+            "n")
+                    start_message
+                    choice_actions
+                    ;;
+            "i")
+                    clear
+                    print_infos
+                    ;;
+            *)
+                    echo "vuoi interrompere? [s]ì [n]o"
+                    read -r SCELTA2
+                    if [[ "$SCELTA2" = 's' ]]; then
+                        USCITA='true'
+                    fi
+                    ;;   
+        esac
+    done
 }
-## end functions part - fine parte funzioni  
 
-echo "Avvio la modalità automatica? [s]ì [n]o [i]nfo"
-read SCELTA1
-USCITA = false
+## end functions part - fine parte funzioni 
 
-until [[$USCITA = true]]; do
-    case "$SCELTA1" in
-        "s")
-                start_message
-                remove_false_positive
-                ;;
-        "n")
-                start_message
-                choice_actions
-                ;;
-        "i")
-                print_infos
-                ;;
-        *)
-                echo "vuoi interrompere? [s]ì [n]o"
-                read SCELTA2
-                if [[$SCELTA2 = "s"]]; then
-                    USCITA = true
-                fi
-                ;;   
-    esac
-done
-
-exit 0 ## fine script
+begin
+exit 1 ## fine script

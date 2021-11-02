@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # this script is used to configure zram
-# launch thi script as root and as $ sudo ./zram.sh to not encour in array issue
+# launch this script as root and as $ sudo ./zram.sh to not encour in array issue
 
 if [ "$(whoami)" != 'root' ]; then
         echo "Must be root to run $0"
