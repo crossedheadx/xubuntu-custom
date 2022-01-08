@@ -256,6 +256,7 @@ start_post_install(){
 
     do_updates
     sudo apt install -y ubuntu-restricted-extras ubuntu-restricted-addons pv
+    usb_copy_issue
     clear
     
     install_extra_software "$MODE"
@@ -278,6 +279,11 @@ start_post_install(){
 
     install_custom_shell_commands
     final_operations
+}
+
+usb_copy_issue(){
+    echo $((16*1024*1024)) > /proc/sys/vm/dirty_background_bytes
+    echo $((48*1024*1024)) > /proc/sys/vm/dirty_bytes
 }
 
 # cleanup - pulizia
