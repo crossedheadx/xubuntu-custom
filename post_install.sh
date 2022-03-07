@@ -275,10 +275,18 @@ start_post_install(){
     clear
     
     implement_zram_optimization
+    oom_mng
     clear
 
     install_custom_shell_commands
     final_operations
+}
+
+oom_mng(){
+    add-apt-repository ppa:oibaf/test
+    apt update
+    apt install nohang
+    systemctl enable --now nohang-desktop.service
 }
 
 usb_copy_issue(){
