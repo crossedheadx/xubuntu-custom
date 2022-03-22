@@ -20,11 +20,11 @@ then
 else
     MEMORY_BLOCK=1024
 fi
-
+# overwrite existing init script with this one 
+echo init-zram-swapping.sh > /usr/bin/init-zram-swapping
+# set right amout of memory
 sed -i "s/1024)/$MEMORY_BLOCK)/g" /usr/bin/init-zram-swapping 
-
-# set compress algorithm to zstd before the disksize is set
-sed -i '/echo $mem >/iecho zstd /sys/block/zram${DEVNUMBER}/comp_algorithm' /usr/bin/init-zram-swapping
+# declare array to put into systemct startup
 OPTIONS=("vm.vfs_cache_pressure=500" "vm.swappiness=100" "vm.dirty_background_ratio=1" "vm.dirty_ratio=50" "vm.page-cluster=0")
 
 for s in "${OPTIONS[@]}" ; do

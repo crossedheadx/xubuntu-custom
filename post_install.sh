@@ -236,10 +236,6 @@ implement_zram_optimization(){
     to_log "Compressione zram impostata"
 }
 
-#implement_no_hangup_oom(){
-#    # TODO implement a oom sys between the garuda and earlyoom file and set a fine tuning system
-#}
-
 # START THE MAIN INSTALLATION PROCESS - INIZIO DEL PROCESSO DI INSTALLAZIONE
 start_post_install(){
     to_log "Inizio installazione"
@@ -281,14 +277,14 @@ start_post_install(){
     install_custom_shell_commands
     final_operations
 }
-
+# nohang for OOM 
 oom_mng(){
     add-apt-repository ppa:oibaf/test
     apt update
     apt install nohang
     systemctl enable --now nohang-desktop.service
 }
-
+# fix an issue on copy/write for USB devices
 usb_copy_issue(){
     echo $((16*1024*1024)) > /proc/sys/vm/dirty_background_bytes
     echo $((48*1024*1024)) > /proc/sys/vm/dirty_bytes
@@ -314,10 +310,6 @@ final_operations() {
 to_log(){
     echo -ne "\n>$(date): \n $1" >> "$(pwd)"/progress.log
 }
-
-#from_log(){
-#
-#}
 
 begin(){
     loading
