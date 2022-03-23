@@ -1,0 +1,33 @@
+{
+    "apt":{
+        "zip": [ "rar", "unrar", "p7zip-full", "p7zip-rar" ],
+        "extra-fonts": ["fonts-crosextra-caladea", "fonts-crosextra-carlito"],
+        "audio": ["audacity"],
+        "video": ["vlc","mpv"],
+        "downloader": { 
+            "cli": ["wget","curl"] 
+        },
+        "git": "git",
+        "shell": {
+            "sh": ["zsh", "fish"],
+            "extra": ["mc","vim","ranger"]
+        }
+    },
+    "snap": {
+        "communication": {
+            "skype":"skype --classic",
+            "telegram":"telegram-desktop",
+            "zoom":"zoom-client"
+        },
+        "notes": {
+            "joplin":"joplin-desktop"
+        },
+        "audio":{
+            "spotify":"spotify"
+        },
+        "browsers":{
+            "chromium":"chromium"
+        }
+    }
+
+}
