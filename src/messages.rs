@@ -1,5 +1,7 @@
 
 pub mod out {
+    use cmd_lib::*;
+    use crate::utilities::utility::sleep;
     use crate::utilities::utility::read;
 
     pub fn print_menu(){
@@ -27,5 +29,20 @@ pub mod out {
             println!("Premere INVIO o ENTER per tornare indietro...");
             user_input = read();
         }
+    }
+
+    pub fn clean_screen() -> CmdResult{
+        run_cmd!("clear");
+        Ok(())
+    }
+
+    pub  fn loading(){
+        clean_screen();
+        println!("{}", "loading");
+        for _ in 0..100 {
+            println!("{}", ".");
+            sleep(225);
+        }
+        println!("tbi");
     }
 }

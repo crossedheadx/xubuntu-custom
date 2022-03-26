@@ -1,36 +1,38 @@
 
 pub mod op {
-    use crate::messages::out::{print_menu, print_infos};
-    use crate::utilities::utility::read;
-    
-    enum PostInstallMode {
-        Manual,
-        Automatic
-    }
-
-    pub fn startup(){
+    use cmd_lib::CmdResult;
+    use crate::messages::out::*;
+    use crate::utilities::utility::{read};
+    use crate::post_install::Install::post_install_steps;
+    use crate::op_types::{PostInstallMode};
+  
+    pub fn startup() -> CmdResult {
         print_menu();
         let user_input:String = read();
         match user_input.as_str() {
-            "s\n" => post_installation(PostInstallMode::Automatic),
-            "n\n" => post_installation(PostInstallMode::Manual),
-            "i\n" => {print_infos(); startup();},
+            "s\n" => post_install_steps(PostInstallMode::Automatic),
+            "n\n" => post_install_steps(PostInstallMode::Manual),
+            "i\n" => {
+                print_infos(); 
+                clean_screen(); 
+                return startup();
+            },
             _ => stop()
-        }
+        };
+        Ok(())
     }
     
-    fn stop(){
+    fn stop() -> CmdResult {
         println!("vuoi interrompere? [s]ì [n]o");
         let user_input:String = read();
         match user_input.as_str() {
-            "s\n" => return,
-            "n\n" => startup(),
-            _ => stop()
+            "s\n" => return Ok(()),
+            "n\n" => { 
+                clean_screen(); 
+                return startup()
+            },
+            _ => return stop()
         }
-    }
-    
-    fn post_installation(_mode: PostInstallMode){
-        println!("tbi");
     }
 }
 
