@@ -3,6 +3,7 @@ pub mod out {
     use cmd_lib::*;
     use crate::utilities::utility::sleep;
     use crate::utilities::utility::read;
+    use std::io::*;
 
     pub fn print_menu(){
         println!("Avvio la modalità automatica? [s]ì [n]o [i]nfo");
@@ -36,13 +37,15 @@ pub mod out {
         Ok(())
     }
 
-    pub  fn loading(){
+    pub fn loading(){
         clean_screen();
         println!("{}", "loading");
         for _ in 0..100 {
-            println!("{}", ".");
-            sleep(225);
+            print!("{}", ".");
+            let _ = stdout().flush();
+            sleep(125);
         }
+        clean_screen();
         println!("tbi");
     }
 }
