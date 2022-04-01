@@ -33,19 +33,19 @@ pub mod out {
     }
 
     pub fn clean_screen() -> CmdResult{
-        run_cmd!("clear");
+        run_cmd!("clear").unwrap();
         Ok(())
     }
 
-    pub fn loading(){
-        clean_screen();
+    pub async fn loading() -> CmdResult{
+        clean_screen().unwrap();
         println!("{}", "loading");
         for _ in 0..100 {
             print!("{}", ".");
             let _ = stdout().flush();
             sleep(125);
         }
-        clean_screen();
-        println!("tbi");
+        clean_screen().unwrap();
+        Ok(())
     }
 }
