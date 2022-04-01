@@ -1,33 +1,140 @@
 {
-    "apt":{
-        "zip": [ "rar", "unrar", "p7zip-full", "p7zip-rar" ],
-        "extra-fonts": ["fonts-crosextra-caladea", "fonts-crosextra-carlito"],
-        "audio": ["audacity"],
-        "video": ["vlc","mpv"],
-        "downloader": { 
-            "cli": ["wget","curl"] 
+    "apt": {
+        "zip": [
+            {
+                "rar": {
+                    "name": "rar",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/multiverse/r/rar/rar_5.5.0-1build1_amd64.deb"
+                }
+            },
+            {
+                "unrar": {
+                    "name": "rar",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/multiverse/u/unrar-nonfree/unrar_5.6.6-2build1_amd64.deb"
+                }
+            },
+            {
+                "p7zip-full": {
+                    "name": "p7zip-full",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/p/p7zip/p7zip-full_16.02+dfsg-7build1_amd64.deb"
+                }
+            },
+            {
+                "p7zip-rar": {
+                    "name": "p7zip-rar",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/multiverse/p/p7zip-rar/p7zip-rar_16.02-3build1_amd64.deb"
+                }
+            }
+        ],
+        "extra-fonts": [
+            {
+                "fonts-crosextra-caladea": {
+                    "name": "fonts-crosextra-caladea",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/f/fonts-crosextra-caladea/fonts-crosextra-caladea_20130214-2_all.deb"
+                }
+            },
+            {
+                "fonts-crosextra-carlito": {
+                    "name": "fonts-crosextra-carlito",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/f/fonts-crosextra-carlito/fonts-crosextra-carlito_20130214-2_all.deb"
+                }
+            }
+        ],
+        "audio": [
+            {
+                "audacity": {
+                    "name": "audacity",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/a/audacity/audacity_2.3.1-1_amd64.deb"
+                }
+            }
+        ],
+        "video": [
+            {
+                "vlc": {
+                    "name": "vlc",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/v/vlc/vlc_2.2.6-1_amd64.deb"
+                }
+            },
+            {
+                "mpv": {
+                    "name": "mpv",
+                    "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/m/mpv/mpv_0.24.0-1_amd64.deb"
+                }
+            }
+        ],
+        "downloader": {
+            "cli": [
+                {
+                    "wget": {
+                        "name": "wget",
+                        "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/w/wget/wget_1.17.1-1_amd64.deb"
+                    }
+                },
+                {
+                    "curl": {
+                        "name": "curl",
+                        "url": "http://security.ubuntu.com/ubuntu/pool/main/c/curl/curl_7.68.0-1ubuntu2.7_amd64.deb"
+                    }
+                }
+            ]
         },
-        "git": "git",
+        "git": {
+            "git": {
+                "name": "git",
+                "url": "http://security.ubuntu.com/ubuntu/pool/main/g/git/git_2.25.1-1ubuntu3.2_amd64.deb"
+            }
+        },
         "shell": {
-            "sh": ["zsh", "fish"],
-            "extra": ["mc","vim","ranger"]
+            "sh": [
+                {
+                    "zsh": {
+                        "name": "zsh",
+                        "url": "http://security.ubuntu.com/ubuntu/pool/main/z/zsh/zsh_5.8-3ubuntu1.1_amd64.deb"
+                    }
+                },
+                {
+                    "fish": {
+                        "name": "fish",
+                        "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/f/fish/fish_3.1.0-1.2_amd64.deb"
+                    }
+                }
+            ],
+            "extra": [
+                {
+                    "mc": {
+                        "name": "mc",
+                        "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/m/mc/mc_4.8.24-2ubuntu1_amd64.deb"
+                    }
+                },
+                {
+                    "vim": {
+                        "name": "vim",
+                        "url": "http://security.ubuntu.com/ubuntu/pool/main/v/vim/vim_8.1.2269-1ubuntu5.7_amd64.deb"
+                    }
+                },
+                {
+                    "ranger": {
+                        "name": "ranger",
+                        "url": "http://fr.archive.ubuntu.com/ubuntu/pool/universe/r/ranger/ranger_1.9.3-1build1_all.deb"
+                    }
+                }
+            ]
         }
     },
     "snap": {
         "communication": {
-            "skype":"skype --classic",
-            "telegram":"telegram-desktop",
-            "zoom":"zoom-client"
+            "skype": "skype --classic",
+            "telegram": "telegram-desktop",
+            "zoom": "zoom-client"
         },
         "notes": {
-            "joplin":"joplin-desktop"
+            "joplin": "joplin-desktop"
         },
-        "audio":{
-            "spotify":"spotify"
+        "audio": {
+            "spotify": "spotify"
         },
-        "browsers":{
-            "chromium":"chromium"
+        "browsers": {
+            "chromium": "chromium"
         }
     }
-
 }
