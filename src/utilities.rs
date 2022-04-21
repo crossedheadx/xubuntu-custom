@@ -1,6 +1,7 @@
 pub mod utility {
     use std::{io, thread, time, fs};
-    use std::io::Cursor;
+    use std::io::{Write, Cursor};
+    
     type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
     use crate::op_types::{ListCategories};
  
@@ -18,6 +19,15 @@ pub mod utility {
         thread::sleep(time::Duration::from_millis(seconds));
     }
 
+    pub fn append_to_file(file_path: &str, content: &str) {
+        let mut file = std::fs::OpenOptions::new()
+            .append(true)
+            .create(true)
+            .open(file_path)
+            .unwrap();
+        file.write_all(content.as_bytes()).unwrap();
+    }
+
     // downloader 
     async fn donwload(url: String, file_name: String) -> Result<()> {
         let response = reqwest::get(url).await?;
@@ -27,7 +37,7 @@ pub mod utility {
         Ok(())
     }
 
-    fn get_packages() -> ListCategories {
+    fn get_packages() {
         let path: &str = "./packages.json";
         let data:String = fs::read_to_string(path).expect("Error reading file");
         let res: serde_json::Value = serde_json::from_str(&data).expect("Error parsing json");

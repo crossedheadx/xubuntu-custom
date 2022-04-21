@@ -1,34 +1,37 @@
 
 pub mod op {
-    use std::future::Future;
-
-    use cmd_lib::CmdResult;
+    use async_recursion::async_recursion;
+    use std::process::Command;
     use crate::messages::out::*;
     use crate::utilities::utility::read;
     use crate::{post_install::install::post_install_steps, op_types::PostInstallMode};
       
-    pub async fn startup() -> Box<dyn Future<Output = CmdResult>> {
+    #[async_recursion]
+    pub async fn startup() {
         print_menu();
         let user_input:String = read();
         match user_input.as_str() {
-            "s\n" => Box::new(post_install_steps(PostInstallMode::Automatic)),
-            "n\n" => Box::new(post_install_steps(PostInstallMode::Manual)),
+            "s\n" => post_install_steps(PostInstallMode::Automatic).await,
+            "n\n" => post_install_steps(PostInstallMode::Manual).await,
             "i\n" => {
                 print_infos(); 
-                clean_screen().unwrap(); 
-                return startup().await;
+                clean_screen(); 
+                startup().await
             },
-            _ => return stop()
+            _ => stop().await
         }
     }
-    
-    async fn stop() -> CmdResult {
+
+    #[async_recursion]
+    async fn stop() {
         println!("vuoi interrompere? [s]ì [n]o");
         let user_input:String = read();
         match user_input.as_str() {
-            "s\n" => return Ok(()),
+            "s\n" => {
+               Command::new("exit");
+            },
             "n\n" => { 
-                clean_screen().unwrap(); 
+                clean_screen(); 
                 return startup().await
             },
             _ => return stop().await

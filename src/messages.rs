@@ -1,9 +1,9 @@
 
 pub mod out {
-    use cmd_lib::*;
     use crate::utilities::utility::sleep;
     use crate::utilities::utility::read;
     use std::io::*;
+    use std::process::Command;
 
     pub fn print_menu(){
         println!("Avvio la modalità automatica? [s]ì [n]o [i]nfo");
@@ -32,20 +32,18 @@ pub mod out {
         }
     }
 
-    pub fn clean_screen() -> CmdResult{
-        run_cmd!("clear").unwrap();
-        Ok(())
+    pub fn clean_screen(){
+        Command::new("clear");
     }
 
-    pub async fn loading() -> CmdResult{
-        clean_screen().unwrap();
+    pub async fn loading(){
+        clean_screen();
         println!("{}", "loading");
         for _ in 0..100 {
             print!("{}", ".");
             let _ = stdout().flush();
             sleep(125);
         }
-        clean_screen().unwrap();
-        Ok(())
+        clean_screen()
     }
 }
