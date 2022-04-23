@@ -2,14 +2,18 @@ pub mod install {
     use std::process::Command;
     use crate::messages::out::*;
     use crate::op_types::PostInstallMode;
+    use crate::fixes::fixes::usb_copy_issue_fix as fix_usb;
+    use crate::utilities::utility::get_packages;
 
-    pub fn post_install_steps(_mode: PostInstallMode) {
-        loading();
+    pub fn post_install_steps(mode: PostInstallMode) {
+        // loading();
 
-        enable_repos();
-        enable_canonical_partners();
-        do_updates(Some(true));
+        // enable_repos();
+        // enable_canonical_partners();
+        // do_updates(Some(true));
+        // fix_usb();
 
+        install_extra_software(mode);
         
     }
 
@@ -18,9 +22,9 @@ pub mod install {
         let shell:&mut Command = &mut Command::new("sh");
         
         v.into_iter().for_each(|i:&str| {
+            let cmd: String = format!("apt-add-repository -y {}", i);
             shell.arg("-c")
-            .arg("apt-add-repository -y")
-            .arg(i)
+            .arg(cmd)
             .output()
             .expect("failed to execute process");
         });
@@ -33,17 +37,22 @@ pub mod install {
 
         v.into_iter().for_each(|i:&str| {
             shell.arg("-c")
-            .arg(format!("echo {} | sudo tee -a /etc/apt/sources.list", i))
-            .spawn()
+            .arg(format!("echo {} | tee -a /etc/apt/sources.list", i))
+            .output()
             .expect("failed to execute process");
         });
     }
 
+    fn install_extra_software(_mode: PostInstallMode){
+        get_packages();
+
+    }
+
     pub fn do_updates(snap: Option<bool>) {
         let shell:&mut Command = &mut Command::new("sh");
-        let cmd = format!("sudo apt update && sudo apt -y full-upgrade {}", 
-        if snap.unwrap_or(false) { "&& sudo snap refreshd" } else { "" });
+        let cmd = format!("apt update && apt -y full-upgrade {}", 
+        if snap.unwrap_or(false) { "&& snap refresh" } else { "" });
 
-        shell.arg("-c").arg(cmd).spawn().expect("failed to execute process");
+        shell.arg("-c").arg(cmd).output().expect("failed to execute process");
     }
 }

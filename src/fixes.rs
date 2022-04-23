@@ -8,6 +8,5 @@ pub mod fixes {
         append_to_file("/proc/sys/vm/dirty_background_bytes", &dirty_background_bytes.to_string());
         append_to_file("/proc/sys/vm/dirty_bytes", &dirty_bytes.to_string());
     }
-
    
 }

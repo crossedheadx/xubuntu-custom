@@ -29,7 +29,7 @@ pub mod utility {
     }
 
     // downloader 
-    async fn donwload(url: String, file_name: String) -> Result<()> {
+    pub async fn donwload(url: String, file_name: String) -> Result<()> {
         let response = reqwest::get(url).await?;
         let mut file = std::fs::File::create(file_name)?;
         let mut content =  Cursor::new(response.bytes().await?);
@@ -37,8 +37,8 @@ pub mod utility {
         Ok(())
     }
 
-    fn get_packages() {
-        let path: &str = "./packages.json";
+    pub fn get_packages() {
+        let path: &str = "packages.json";
         let data:String = fs::read_to_string(path).expect("Error reading file");
         let res: serde_json::Value = serde_json::from_str(&data).expect("Error parsing json");
         println!("{:?}", res);
