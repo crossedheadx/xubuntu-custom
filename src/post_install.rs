@@ -3,13 +3,14 @@ pub mod install {
     use crate::messages::out::*;
     use crate::op_types::PostInstallMode;
 
-    pub async fn post_install_steps(_mode: PostInstallMode) {
-        loading().await;
+    pub fn post_install_steps(_mode: PostInstallMode) {
+        loading();
 
         enable_repos();
         enable_canonical_partners();
         do_updates(Some(true));
 
+        
     }
 
     fn enable_repos() {
@@ -20,7 +21,7 @@ pub mod install {
             shell.arg("-c")
             .arg("apt-add-repository -y")
             .arg(i)
-            .spawn()
+            .output()
             .expect("failed to execute process");
         });
     }

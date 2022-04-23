@@ -1,29 +1,32 @@
 
 pub mod op {
-    use async_recursion::async_recursion;
     use std::process::Command;
     use crate::messages::out::*;
     use crate::utilities::utility::read;
     use crate::{post_install::install::post_install_steps, op_types::PostInstallMode};
       
-    #[async_recursion]
-    pub async fn startup() {
+    
+    pub fn startup(){
+        main_menu();
+    }
+
+    fn main_menu() {
         print_menu();
         let user_input:String = read();
         match user_input.as_str() {
-            "s\n" => post_install_steps(PostInstallMode::Automatic).await,
-            "n\n" => post_install_steps(PostInstallMode::Manual).await,
+            "s\n" => post_install_steps(PostInstallMode::Automatic),
+            "n\n" => post_install_steps(PostInstallMode::Manual),
             "i\n" => {
                 print_infos(); 
                 clean_screen(); 
-                startup().await
+                startup()
             },
-            _ => stop().await
+            _ => stop()
         }
     }
 
-    #[async_recursion]
-    async fn stop() {
+
+    fn stop() {
         println!("vuoi interrompere? [s]ì [n]o");
         let user_input:String = read();
         match user_input.as_str() {
@@ -32,10 +35,9 @@ pub mod op {
             },
             "n\n" => { 
                 clean_screen(); 
-                return startup().await
+                startup()
             },
-            _ => return stop().await
+            _ => stop()
         }
     }
 }
-

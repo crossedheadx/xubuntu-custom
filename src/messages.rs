@@ -33,10 +33,12 @@ pub mod out {
     }
 
     pub fn clean_screen(){
-        Command::new("clear");
+        Command::new("/usr/bin/clear")
+        .output()
+        .expect("failed to execute process");
     }
 
-    pub async fn loading(){
+    pub fn loading(){
         clean_screen();
         println!("{}", "loading");
         for _ in 0..100 {
