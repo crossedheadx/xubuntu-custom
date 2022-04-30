@@ -1,6 +1,7 @@
 pub mod utility {
     use std::{io, thread, time, fs};
     use std::io::{Write, Cursor};
+    use crate::op_types::PostInstallMode;
     
     type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
     use crate::op_types::{ListCategories};
@@ -11,9 +12,9 @@ pub mod utility {
         user_input
     }
 
-    pub fn to_log(msg: String){
-        println!("{}", msg);
-    }
+    // pub fn to_log(msg: String){
+    //     println!("{}", msg);
+    // }
 
     pub fn sleep(seconds: u64) {
         thread::sleep(time::Duration::from_millis(seconds));
@@ -37,12 +38,15 @@ pub mod utility {
         Ok(())
     }
 
-    pub fn get_packages() {
-        let path: &str = "packages.json";
+    pub fn get_packages(mode: PostInstallMode) {
+        let path: &str = "./src/packages.json";
         let data:String = fs::read_to_string(path).expect("Error reading file");
         let res: serde_json::Value = serde_json::from_str(&data).expect("Error parsing json");
-        println!("{:?}", res);
-        // Todo: parse into obj with given struct
+
+        for category in res["categories"].as_array().unwrap() {
+            
+        }
+        
     }
 }
 
